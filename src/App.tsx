@@ -1,22 +1,16 @@
-import axios from "axios";
+import axiosInstance from "./utils/axiosConfig";
 import React, { useState } from "react";
 
-const App: React.FC = () => {
-  const [input, setInput] = useState("");
-  const [response, setResponse] = useState("");
+const App: React.FunctionComponent = () => {
+  const [input, setInput] = useState<string>("");
+  const [response, setResponse] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const headers = { Authorization: `Bearer ${apiKey}` };
     const params = { prompt: input, max_tokens: 500 };
 
     try {
-      const res = await axios.post(
-        "https://api.openai.com/v1/engines/davinci/completions",
-        params,
-        { headers }
-      );
+      const res = await axiosInstance.post("", params);
       setResponse(res.data.choices[0].text);
     } catch (err) {
       console.error(err);
